@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mearcury.Azure\Mearcury.Azure.csproj" />
+    <ProjectReference Include="..\Mearcury.Core\Mearcury.Core.csproj" />
+  </ItemGroup>
+
+</Project>
