@@ -16,8 +16,8 @@ namespace Mearcury.Admin.Load
 
             var resources = new Resources();
 
-            client.GetExistingResources(existing: resources).ConfigureAwait(false).GetAwaiter().GetResult();
-            client.GetBillingResources(existing: resources).ConfigureAwait(false).GetAwaiter().GetResult();
+            client.FillInExistingResources(resources: resources).ConfigureAwait(false).GetAwaiter().GetResult();
+            client.GetBillingResources(resources: resources).ConfigureAwait(false).GetAwaiter().GetResult();
 
             Console.WriteLine();
             Console.WriteLine($"|{"Resource",-40}|{"Group",-40}|{"Type",-40}|{"Cost",10}|");

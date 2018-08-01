@@ -4,6 +4,11 @@ namespace Mearcury.Core
 {
     public class Resource
     {
+        public static Resource DeletedResourceFromName(string id, string name)
+        {
+            return new Resource(id, name, "deleted", "deleted");
+        }
+
         public string Id { get; }
         public string Name { get; }
         public string Group { get; }

@@ -25,12 +25,18 @@ namespace Mearcury.Azure
             return source.Length < length ? source : (source.Substring(0, length - 3) + "...");
         }
 
-        public static async Task<Resources> GetExistingResources(this AzureClient client, Resources existing = null)
+        public static Core.Resource Convert(this IGenericResource resource)
+        {
+            return new Core.Resource(resource.Id, resource.Name, resource.ResourceGroupName, resource.Type);
+        }
+
+        public static async Task FillInExistingResources(this AzureClient client, Resources resources)
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
 
-            var resources = existing ?? new Resources();
+            if (resources == null)
+                throw new ArgumentNullException(nameof(resources));
 
             Type managementType = client.Management.GetType();
             System.Reflection.FieldInfo resourceManagerField = managementType.GetField("resourceManager", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -38,20 +44,21 @@ namespace Mearcury.Azure
 
             Console.WriteLine("Azure resources are being loaded...");
 
-            var allResources = await resourceManager.GenericResources.ListAsync(true);
+            var azureResources = await resourceManager.GenericResources.ListAsync(true);
 
-            foreach (var resource in allResources)
-                resources.Add(resource.Id, resource.Name, resource.ResourceGroupName, resource.Type);
+            foreach (var azureResource in azureResources)
+                resources.Add(azureResource.Convert());
 
             Console.WriteLine("Azure resource load completed!");
-
-            return resources;
         }
 
-        public static async Task<Resources> GetBillingResources(this AzureClient client, DateTime startDate = default(DateTime), DateTime endDate = default(DateTime), Resources existing = null)
+        public static async Task GetBillingResources(this AzureClient client, Resources resources, DateTime startDate = default(DateTime), DateTime endDate = default(DateTime))
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
+
+            if (resources == null)
+                throw new ArgumentNullException(nameof(resources));
 
             if (startDate == default(DateTime))
                 startDate = DateTime.Now.Subtract(TimeSpan.FromHours(2));
@@ -60,7 +67,6 @@ namespace Mearcury.Azure
                 endDate = DateTime.Now.Subtract(TimeSpan.FromHours(1));
 
             var subscription = client.Subscription;
-            var resources = existing ?? new Resources();
 
             Console.WriteLine("Billing for Azure resources are being loaded...");
 
@@ -88,19 +94,21 @@ namespace Mearcury.Azure
             {
                 var resourceName = cost.Key;
                 var resourceCost = cost.Value;
+                var totalCost = resourceCost.GetTotalCosts();
 
-                if (resources.ExistsByName(resourceName))
-                {
-                    resources.GetByName(resourceName).First().Cost += resourceCost.GetTotalCosts();
+                if (resources.UpdateCostByName(resourceName, totalCost))
                     continue;
-                }
 
-                resources.Add(Guid.NewGuid().ToString(), resourceName, "deleted", "deleted");
+                var resourceId =
+                    resourceCost.Select(item => item.UsageValue?.Properties?.InstanceData?.MicrosoftResources?.ResourceUri).FirstOrDefault(uri => uri != null)
+                    ?? Guid.NewGuid().ToString();
+
+                resources.Add(Core.Resource.DeletedResourceFromName(resourceId, resourceName));
+
+                resources.UpdateCostByName(resourceName, totalCost);
             }
 
             Console.WriteLine("Billing for Azure resource load completed!");
-
-            return resources;
         }
     }
 }

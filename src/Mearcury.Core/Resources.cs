@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mearcury.Core
 {
@@ -21,11 +22,6 @@ namespace Mearcury.Core
 
             foreach (var resource in existing)
                 Add(resource);
-        }
-
-        public void Add(string id, string name, string group, string type)
-        {
-            Add(new Resource(id, name, group, type));
         }
 
         public void Add(Resource resource)
@@ -54,6 +50,16 @@ namespace Mearcury.Core
         public bool ExistsByName(string name)
         {
             return _names.ContainsKey(name);
+        }
+
+        public bool UpdateCostByName(string name, double cost)
+        {
+            if (!ExistsByName(name))
+                return false;
+
+            GetByName(name).First().Cost += cost;
+
+            return true;
         }
 
         public IEnumerable<Resource> GetByName(string name)
