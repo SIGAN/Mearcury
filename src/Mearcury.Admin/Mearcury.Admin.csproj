@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mearcury.Azure\Mearcury.Azure.csproj" />
     <ProjectReference Include="..\Mearcury.Core\Mearcury.Core.csproj" />
     <ProjectReference Include="..\Mearcury.Logic\Mearcury.Logic.csproj" />
   </ItemGroup>

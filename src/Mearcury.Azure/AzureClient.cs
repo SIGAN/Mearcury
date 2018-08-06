@@ -1,4 +1,5 @@
-﻿using CodeHollow.AzureBillingApi;
+﻿using Mearcury.Azure.Billing;
+using Mearcury.Azure.Core;
 using Mearcury.Core;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
@@ -74,7 +75,7 @@ namespace Mearcury.Azure
 
         private Client GetBilling()
         {
-            return new Client(Subscription.TenantId, Subscription.ClientId, Subscription.ClientSecret, Subscription.SubscriptionId, Subscription.RedirectUri);
+            return new Client(Identity, Environment, Subscription);
         }
 
         private IAzure GetAzure()

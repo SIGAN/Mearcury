@@ -6,13 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Management.Fluent" Version="1.13.0" />
-    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.12" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mearcury.Azure.Billing\Mearcury.Azure.Billing.csproj" />
     <ProjectReference Include="..\Mearcury.Azure.Core\Mearcury.Azure.Core.csproj" />
-    <ProjectReference Include="..\Mearcury.Azure.ResourceManager\Mearcury.Azure.ResourceManager.csproj" />
     <ProjectReference Include="..\Mearcury.Core\Mearcury.Core.csproj" />
   </ItemGroup>
 
