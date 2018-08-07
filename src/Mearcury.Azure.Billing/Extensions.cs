@@ -311,25 +311,24 @@ namespace Mearcury.Azure.Billing
             {
                 var resourceName = cost.Key;
                 var resourceCost = cost.Value;
-                var totalCost = resourceCost.GetTotalCosts();
-
-                if (resources.UpdateCostByName(resourceName, totalCost))
-                    continue;
 
                 var resourceId =
                     resourceCost.Select(item => item.UsageValue?.Properties?.InstanceData?.MicrosoftResources?.ResourceUri).FirstOrDefault(uri => uri != null)
                     ?? Guid.NewGuid().ToString();
 
+                var totalCost = resourceCost.GetTotalCosts();
+
+                if (resources.UpdateCostById(resourceId, totalCost))
+                    continue;
+
                 var resourceTags =
-                    resourceCost.Select(item => item.UsageValue?.Properties?.InstanceData?.MicrosoftResources?.Tags).FirstOrDefault(tags => tags != null).ToDictionary(pair => pair.Key, pair => pair.Value)
+                    resourceCost.Select(item => item.UsageValue?.Properties?.InstanceData?.MicrosoftResources?.Tags).FirstOrDefault(tags => tags != null)?.ToDictionary(pair => pair.Key, pair => pair.Value)
                     ?? new Dictionary<string, string>();
 
                 resources.Add(Resource.DeletedResourceFromName(resourceId, resourceName, resourceTags));
 
-                resources.UpdateCostByName(resourceName, totalCost);
+                resources.UpdateCostById(resourceId, totalCost);
             }
-
-            Console.WriteLine("Billing for Azure resource load completed!");
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Mearcury.Azure.Billing
         public async Task<RateCardData> GetAsync()
         {
             var url =
-                $"https://management.azure.com/subscriptions/{Subscription}/providers/Microsoft.Commerce/RateCard" +
+                $"https://management.azure.com/subscriptions/{Subscription.SubscriptionId}/providers/Microsoft.Commerce/RateCard" +
                 $"?api-version={APIVERSION}" +
                 $"&$filter=OfferDurableId eq '{Subscription.OfferId}' and Currency eq '{Subscription.Currency}' and Locale eq '{Subscription.Locale}' and RegionInfo eq '{Subscription.Region}'";
 

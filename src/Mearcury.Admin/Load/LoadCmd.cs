@@ -25,6 +25,9 @@ namespace Mearcury.Admin.Load
             foreach (var resource in resources.OrderByDescending(item => item.Cost))
                 Console.WriteLine($"|{resource.Name.Ellipsis(40),-40}|{resource.Group.Ellipsis(40),-40}|{resource.Type.Ellipsis(40),-40}|{resource.Cost,10:N6}|");
 
+            var totalCostPerHour = resources.Sum(resource => resource.Cost);
+            Console.WriteLine($"|{"Total",-40}|{totalCostPerHour,40:N6}|{totalCostPerHour * 24 * 7,40:N6}|{totalCostPerHour * 24 * 30,10:N6}|");
+
             return CmdResult.Default;
         }
     }

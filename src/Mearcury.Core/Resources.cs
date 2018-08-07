@@ -52,6 +52,16 @@ namespace Mearcury.Core
             return _names.ContainsKey(name);
         }
 
+        public bool UpdateCostById(string id, double cost)
+        {
+            if (!ExistsById(id))
+                return false;
+
+            GetById(id).Cost += cost;
+
+            return true;
+        }
+
         public bool UpdateCostByName(string name, double cost)
         {
             if (!ExistsByName(name))
