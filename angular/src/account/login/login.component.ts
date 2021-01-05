@@ -1,52 +1,38 @@
-﻿import { Component, Injector, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Injector } from '@angular/core';
+import { AbpSessionService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/app-component-base';
-import { LoginService } from './login.service';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { AbpSessionService } from '@abp/session/abp-session.service';
+import { AppAuthService } from '@shared/auth/app-auth.service';
 
 @Component({
-    templateUrl: './login.component.html',
-    styleUrls: [
-        './login.component.less'
-    ],
-    animations: [accountModuleAnimation()]
+  templateUrl: './login.component.html',
+  animations: [accountModuleAnimation()]
 })
 export class LoginComponent extends AppComponentBase {
+  submitting = false;
 
-    @ViewChild('cardBody') cardBody: ElementRef;
+  constructor(
+    injector: Injector,
+    public authService: AppAuthService,
+    private _sessionService: AbpSessionService
+  ) {
+    super(injector);
+  }
 
-    submitting: boolean = false;
+  get multiTenancySideIsTeanant(): boolean {
+    return this._sessionService.tenantId > 0;
+  }
 
-    constructor(
-        injector: Injector,
-        public loginService: LoginService,
-        private _router: Router,
-        private _sessionService: AbpSessionService
-    ) {
-        super(injector);
+  get isSelfRegistrationAllowed(): boolean {
+    if (!this._sessionService.tenantId) {
+      return false;
     }
 
-    ngAfterViewInit(): void {
-        $(this.cardBody.nativeElement).find('input:first').focus();
-    }
+    return true;
+  }
 
-    get multiTenancySideIsTeanant(): boolean {
-        return this._sessionService.tenantId > 0;
-    }
-
-    get isSelfRegistrationAllowed(): boolean {
-        if (!this._sessionService.tenantId) {
-            return false;
-        }
-
-        return true;
-    }
-
-    login(): void {
-        this.submitting = true;
-        this.loginService.authenticate(
-            () => this.submitting = false
-        );
-    }
+  login(): void {
+    this.submitting = true;
+    this.authService.authenticate(() => (this.submitting = false));
+  }
 }

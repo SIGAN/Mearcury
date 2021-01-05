@@ -13,7 +13,7 @@ namespace Mearcury.Azure.Billing
     /// </summary>
     public class RateCardClient : Client
     {
-        private static readonly string APIVERSION = "2016-08-31-preview"; // "2015-06-01-preview";
+        private static readonly string ApiVersion = "2016-08-31-preview"; // "2015-06-01-preview";
 
         /// <summary>
         /// Creates the client to read data from the ratecard REST API. Uses user authentication for 
@@ -40,7 +40,7 @@ namespace Mearcury.Azure.Billing
         {
             var url =
                 $"https://management.azure.com/subscriptions/{Subscription.SubscriptionId}/providers/Microsoft.Commerce/RateCard" +
-                $"?api-version={APIVERSION}" +
+                $"?api-version={ApiVersion}" +
                 $"&$filter=OfferDurableId eq '{Subscription.OfferId}' and Currency eq '{Subscription.Currency}' and Locale eq '{Subscription.Locale}' and RegionInfo eq '{Subscription.Region}'";
 
             var data = await GetDataAsync(url);

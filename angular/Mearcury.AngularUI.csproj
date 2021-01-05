@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>angular</AssemblyName>
     <PackageId>angular</PackageId>
   </PropertyGroup>
@@ -11,7 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="dist" />
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Update="wwwroot\**\*;web.config">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>

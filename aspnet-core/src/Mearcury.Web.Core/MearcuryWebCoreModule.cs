@@ -12,6 +12,7 @@ using Abp.Zero.Configuration;
 using Mearcury.Authentication.JwtBearer;
 using Mearcury.Configuration;
 using Mearcury.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace Mearcury
 {
@@ -23,10 +24,10 @@ namespace Mearcury
      )]
     public class MearcuryWebCoreModule : AbpModule
     {
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
 
-        public MearcuryWebCoreModule(IHostingEnvironment env)
+        public MearcuryWebCoreModule(IWebHostEnvironment env)
         {
             _env = env;
             _appConfiguration = env.GetAppConfiguration();
@@ -64,6 +65,12 @@ namespace Mearcury
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(typeof(MearcuryWebCoreModule).GetAssembly());
+        }
+
+        public override void PostInitialize()
+        {
+            IocManager.Resolve<ApplicationPartManager>()
+                .AddApplicationPartsIfNotAddedBefore(typeof(MearcuryWebCoreModule).Assembly);
         }
     }
 }

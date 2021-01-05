@@ -14,7 +14,7 @@ namespace Mearcury.Admin.Load
 
             var client = new AzureClient(subscription);
 
-            var resources = new Resources();
+            var resources = new CloudResources();
 
             client.FillInExistingResourcesAsync(resources: resources).ConfigureAwait(false).GetAwaiter().GetResult();
             client.UpdateBillingResourcesAsync(resources: resources).ConfigureAwait(false).GetAwaiter().GetResult();

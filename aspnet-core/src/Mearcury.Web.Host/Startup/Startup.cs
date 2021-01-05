@@ -3,19 +3,21 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Castle.Facilities.Logging;
-using Swashbuckle.AspNetCore.Swagger;
 using Abp.AspNetCore;
+using Abp.AspNetCore.Mvc.Antiforgery;
 using Abp.Castle.Logging.Log4Net;
 using Abp.Extensions;
 using Mearcury.Configuration;
 using Mearcury.Identity;
-
 using Abp.AspNetCore.SignalR.Hubs;
+using Abp.Dependency;
+using Abp.Json;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace Mearcury.Web.Host.Startup
 {
@@ -23,19 +25,32 @@ namespace Mearcury.Web.Host.Startup
     {
         private const string _defaultCorsPolicyName = "localhost";
 
+        private const string _apiVersion = "v1";
+
         private readonly IConfigurationRoot _appConfiguration;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             _appConfiguration = env.GetAppConfiguration();
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            // MVC
-            services.AddMvc(
-                options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
-            );
+            //MVC
+            services.AddControllersWithViews(
+                options =>
+                {
+                    options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
+                }
+            ).AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new AbpMvcContractResolver(IocManager.Instance)
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                };
+            });
+
+
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
@@ -63,16 +78,33 @@ namespace Mearcury.Web.Host.Startup
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info { Title = "Mearcury API", Version = "v1" });
+                options.SwaggerDoc(_apiVersion, new OpenApiInfo
+                {
+                    Version = _apiVersion,
+                    Title = "Mearcury API",
+                    Description = "Mearcury",
+                    // uncomment if needed TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Mearcury",
+                        Email = string.Empty,
+                        Url = new Uri("https://twitter.com/aspboilerplate"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://github.com/aspnetboilerplate/aspnetboilerplate/blob/dev/LICENSE"),
+                    }
+                });
                 options.DocInclusionPredicate((docName, description) => true);
 
                 // Define the BearerAuth scheme that's in use
-                options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
+                options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme()
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
                 });
             });
 
@@ -85,7 +117,7 @@ namespace Mearcury.Web.Host.Startup
             );
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
         {
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
@@ -93,35 +125,31 @@ namespace Mearcury.Web.Host.Startup
 
             app.UseStaticFiles();
 
+            app.UseRouting();
+
             app.UseAuthentication();
 
             app.UseAbpRequestLocalization();
 
-
-            app.UseSignalR(routes =>
+          
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<AbpCommonHub>("/signalr");
-            });
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "defaultWithArea",
-                    template: "{area}/{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<AbpCommonHub>("/signalr");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
             });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger();
+            app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
+
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint(_appConfiguration["App:ServerRootAddress"].EnsureEndsWith('/') + "swagger/v1/swagger.json", "Mearcury API V1");
+                // specifying the Swagger JSON endpoint.
+                options.SwaggerEndpoint($"/swagger/{_apiVersion}/swagger.json", $"Mearcury API {_apiVersion}");
                 options.IndexStream = () => Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("Mearcury.Web.Host.wwwroot.swagger.ui.index.html");
+                options.DisplayRequestDuration(); // Controls the display of the request duration (in milliseconds) for "Try it out" requests.  
             }); // URL: /swagger
         }
     }

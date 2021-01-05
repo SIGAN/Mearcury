@@ -10,10 +10,10 @@ namespace Mearcury.Web.Host.Startup
        typeof(MearcuryWebCoreModule))]
     public class MearcuryWebHostModule: AbpModule
     {
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
 
-        public MearcuryWebHostModule(IHostingEnvironment env)
+        public MearcuryWebHostModule(IWebHostEnvironment env)
         {
             _env = env;
             _appConfiguration = env.GetAppConfiguration();

@@ -1,4 +1,4 @@
-﻿using Mearcury.Core;
+﻿using Mearcury.Azure;
 
 namespace Mearcury.Admin.Core
 {

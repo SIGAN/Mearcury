@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mearcury.Azure.Core\Mearcury.Azure.Core.csproj" />
-    <ProjectReference Include="..\Mearcury.Core\Mearcury.Core.csproj" />
+    <ProjectReference Include="..\Mearcury.Cloud\Mearcury.Cloud.csproj" />
   </ItemGroup>
 
 </Project>

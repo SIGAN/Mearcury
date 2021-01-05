@@ -11,9 +11,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mearcury.Azure.Billing\Mearcury.Azure.Billing.csproj" />
+    <ProjectReference Include="..\Mearcury.Azure.Client\Mearcury.Azure.Client.csproj" />
     <ProjectReference Include="..\Mearcury.Azure.Core\Mearcury.Azure.Core.csproj" />
     <ProjectReference Include="..\Mearcury.Azure.ResourceManager\Mearcury.Azure.ResourceManager.csproj" />
-    <ProjectReference Include="..\Mearcury.Core\Mearcury.Core.csproj" />
   </ItemGroup>
 
 </Project>

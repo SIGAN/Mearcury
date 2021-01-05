@@ -1,6 +1,6 @@
 ﻿using Mearcury.Azure.Billing.RateCard;
 using Mearcury.Azure.Billing.Usage;
-using Mearcury.Core;
+using Mearcury.Cloud;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,9 +47,7 @@ namespace Mearcury.Azure.Billing
             var result = new Dictionary<string, IEnumerable<ResourceCosts>>();
 
             foreach (var resource in resourceNames)
-            {
                 result.Add(resource, costs.GetCostsByResourceName(resource));
-            }
 
             return result;
         }
@@ -280,7 +278,7 @@ namespace Mearcury.Azure.Billing
             return costs.Sum(y => y.BillableUnits);
         }
 
-        public static async Task UpdateBillingResourcesAsync(this Client client, Resources resources, DateTime startDate = default(DateTime), DateTime endDate = default(DateTime))
+        public static async Task UpdateBillingResourcesAsync(this Client client, CloudResources resources, DateTime startDate = default(DateTime), DateTime endDate = default(DateTime))
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
@@ -325,7 +323,7 @@ namespace Mearcury.Azure.Billing
                     resourceCost.Select(item => item.UsageValue?.Properties?.InstanceData?.MicrosoftResources?.Tags).FirstOrDefault(tags => tags != null)?.ToDictionary(pair => pair.Key, pair => pair.Value)
                     ?? new Dictionary<string, string>();
 
-                resources.Add(Resource.DeletedResourceFromName(resourceId, resourceName, resourceTags));
+                resources.Add(CloudResource.DeletedResourceFromName(resourceId, resourceName, resourceTags));
 
                 resources.UpdateCostById(resourceId, totalCost);
             }

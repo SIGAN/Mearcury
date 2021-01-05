@@ -1,4 +1,4 @@
-﻿using Mearcury.Core;
+﻿using Mearcury.Cloud;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using System;
@@ -8,12 +8,12 @@ namespace Mearcury.Azure.ResourceManager
 {
     public static class Extensions
     {
-        public static Mearcury.Core.Resource Convert(this IGenericResource resource)
+        public static CloudResource Convert(this IGenericResource resource)
         {
-            return new Mearcury.Core.Resource(resource.Id, resource.Name, resource.ResourceGroupName, resource.Type, resource.Tags);
+            return new CloudResource { Id = resource.Id, Name = resource.Name, GroupName = resource.ResourceGroupName, Type = resource.Type, Tags = resource.Tags };
         }
 
-        public static async Task FillInExistingResourcesAsync(this IAzure client, Resources resources)
+        public static async Task FillInExistingResourcesAsync(this IAzure client, CloudResources resources)
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));

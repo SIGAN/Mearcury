@@ -8,7 +8,7 @@ namespace Mearcury.Azure
 {
     public static class Extensions
     {
-        public static async Task FillInExistingResourcesAsync(this AzureClient client, Resources resources)
+        public static async Task FillInExistingResourcesAsync(this AzureClient client, CloudResources resources)
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
@@ -20,7 +20,7 @@ namespace Mearcury.Azure
             Console.WriteLine("Azure resource load completed!");
         }
 
-        public static async Task UpdateBillingResourcesAsync(this AzureClient client, Resources resources, DateTime startDate = default(DateTime), DateTime endDate = default(DateTime))
+        public static async Task UpdateBillingResourcesAsync(this AzureClient client, CloudResources resources, DateTime startDate = default(DateTime), DateTime endDate = default(DateTime))
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));

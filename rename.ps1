@@ -2,7 +2,7 @@
 $OutputEncoding = [Text.UTF8Encoding]::UTF8
 
 # company name placeholder 
-$oldCompanyName="ITComplex"
+$oldCompanyName="AbpCompanyName"
 # your company name
 $newCompanyName="YourCompanyName"
 

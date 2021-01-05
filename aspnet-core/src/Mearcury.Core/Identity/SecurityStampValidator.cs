@@ -5,19 +5,18 @@ using Abp.Authorization;
 using Mearcury.Authorization.Roles;
 using Mearcury.Authorization.Users;
 using Mearcury.MultiTenancy;
+using Microsoft.Extensions.Logging;
 
 namespace Mearcury.Identity
 {
     public class SecurityStampValidator : AbpSecurityStampValidator<Tenant, Role, User>
     {
         public SecurityStampValidator(
-            IOptions<SecurityStampValidatorOptions> options, 
+            IOptions<SecurityStampValidatorOptions> options,
             SignInManager signInManager,
-            ISystemClock systemClock) 
-            : base(
-                  options, 
-                  signInManager, 
-                  systemClock)
+            ISystemClock systemClock,
+            ILoggerFactory loggerFactory) 
+            : base(options, signInManager, systemClock, loggerFactory)
         {
         }
     }

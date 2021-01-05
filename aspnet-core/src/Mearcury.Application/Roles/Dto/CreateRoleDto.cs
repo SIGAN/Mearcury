@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Abp.Authorization.Roles;
-using Abp.AutoMapper;
 using Mearcury.Authorization.Roles;
 
 namespace Mearcury.Roles.Dto
 {
-    [AutoMapTo(typeof(Role))]
     public class CreateRoleDto
     {
         [Required]
@@ -22,8 +20,11 @@ namespace Mearcury.Roles.Dto
         [StringLength(Role.MaxDescriptionLength)]
         public string Description { get; set; }
 
-        public bool IsStatic { get; set; }
+        public List<string> GrantedPermissions { get; set; }
 
-        public List<string> Permissions { get; set; }
+        public CreateRoleDto()
+        {
+            GrantedPermissions = new List<string>();
+        }
     }
 }

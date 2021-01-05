@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
-using Abp.Extensions;
 using Mearcury.Authorization;
 using Mearcury.Authorization.Roles;
 using Mearcury.Authorization.Users;
 using Mearcury.Roles.Dto;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mearcury.Roles
 {
@@ -30,7 +30,7 @@ namespace Mearcury.Roles
             _userManager = userManager;
         }
 
-        public override async Task<RoleDto> Create(CreateRoleDto input)
+        public override async Task<RoleDto> CreateAsync(CreateRoleDto input)
         {
             CheckCreatePermission();
 
@@ -41,7 +41,7 @@ namespace Mearcury.Roles
 
             var grantedPermissions = PermissionManager
                 .GetAllPermissions()
-                .Where(p => input.Permissions.Contains(p.Name))
+                .Where(p => input.GrantedPermissions.Contains(p.Name))
                 .ToList();
 
             await _roleManager.SetGrantedPermissionsAsync(role, grantedPermissions);
@@ -62,7 +62,7 @@ namespace Mearcury.Roles
             return new ListResultDto<RoleListDto>(ObjectMapper.Map<List<RoleListDto>>(roles));
         }
 
-        public override async Task<RoleDto> Update(RoleDto input)
+        public override async Task<RoleDto> UpdateAsync(RoleDto input)
         {
             CheckUpdatePermission();
 
@@ -74,7 +74,7 @@ namespace Mearcury.Roles
 
             var grantedPermissions = PermissionManager
                 .GetAllPermissions()
-                .Where(p => input.Permissions.Contains(p.Name))
+                .Where(p => input.GrantedPermissions.Contains(p.Name))
                 .ToList();
 
             await _roleManager.SetGrantedPermissionsAsync(role, grantedPermissions);
@@ -82,7 +82,7 @@ namespace Mearcury.Roles
             return MapToEntityDto(role);
         }
 
-        public override async Task Delete(EntityDto<int> input)
+        public override async Task DeleteAsync(EntityDto<int> input)
         {
             CheckDeletePermission();
 
@@ -102,16 +102,16 @@ namespace Mearcury.Roles
             var permissions = PermissionManager.GetAllPermissions();
 
             return Task.FromResult(new ListResultDto<PermissionDto>(
-                ObjectMapper.Map<List<PermissionDto>>(permissions)
+                ObjectMapper.Map<List<PermissionDto>>(permissions).OrderBy(p => p.DisplayName).ToList()
             ));
         }
 
         protected override IQueryable<Role> CreateFilteredQuery(PagedRoleResultRequestDto input)
         {
             return Repository.GetAllIncluding(x => x.Permissions)
-                .WhereIf(!input.RoleName.IsNullOrWhiteSpace(), x => x.Name.Contains(input.RoleName))
-                .WhereIf(!input.DisplayName.IsNullOrWhiteSpace(), x => x.DisplayName.Contains(input.DisplayName))
-                .WhereIf(!input.Description.IsNullOrWhiteSpace(), x => x.Description.Contains(input.Description));
+                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword)
+                || x.DisplayName.Contains(input.Keyword)
+                || x.Description.Contains(input.Keyword));
         }
 
         protected override async Task<Role> GetEntityByIdAsync(int id)
