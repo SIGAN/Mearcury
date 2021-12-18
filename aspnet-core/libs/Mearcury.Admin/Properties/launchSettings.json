@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Mearcury.Admin": {
-      "commandName": "Project",
-      "commandLineArgs": "load --clientsecret \"R+oxd+lGtU+EnDeC/xglQpcUx0i8k6iRGKbd/+mCayQ=\""
-    }
-  }
-}
