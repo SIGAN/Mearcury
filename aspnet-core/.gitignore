@@ -251,6 +251,15 @@ paket-files/
 .idea/
 *.sln.iml
 
-src/Mearcury.Web.Mvc/secrets.json
-src/Mearcury.Web.Host/secrets.json
-src/Mearcury.Migrator/secrets.json
+# Mearcury
+src/Mearcury.Web/Logs/*
+src/Mearcury.Web.Host/Logs/*
+src/Mearcury.IdentityServer/Logs/*
+src/Mearcury.HttpApi.Host/Logs/*
+src/Mearcury.HttpApi.HostWithIds/Logs/*
+src/Mearcury.DbMigrator/Logs/*
+src/Mearcury.Blazor.Server/Logs/*
+src/Mearcury.Blazor.Server.Tiered/Logs/*
+
+# Use abp install-libs to restore.
+**/wwwroot/libs/*

@@ -1,30 +1,31 @@
-﻿using Abp.AutoMapper;
-using Abp.Modules;
-using Abp.Reflection.Extensions;
-using Mearcury.Authorization;
+﻿using Volo.Abp.Account;
+using Volo.Abp.AutoMapper;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
+using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.TenantManagement;
 
-namespace Mearcury
+namespace Mearcury;
+
+[DependsOn(
+    typeof(MearcuryDomainModule),
+    typeof(AbpAccountApplicationModule),
+    typeof(MearcuryApplicationContractsModule),
+    typeof(AbpIdentityApplicationModule),
+    typeof(AbpPermissionManagementApplicationModule),
+    typeof(AbpTenantManagementApplicationModule),
+    typeof(AbpFeatureManagementApplicationModule),
+    typeof(AbpSettingManagementApplicationModule)
+    )]
+public class MearcuryApplicationModule : AbpModule
 {
-    [DependsOn(
-        typeof(MearcuryCoreModule), 
-        typeof(AbpAutoMapperModule))]
-    public class MearcuryApplicationModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void PreInitialize()
+        Configure<AbpAutoMapperOptions>(options =>
         {
-            Configuration.Authorization.Providers.Add<MearcuryAuthorizationProvider>();
-        }
-
-        public override void Initialize()
-        {
-            var thisAssembly = typeof(MearcuryApplicationModule).GetAssembly();
-
-            IocManager.RegisterAssemblyByConvention(thisAssembly);
-
-            Configuration.Modules.AbpAutoMapper().Configurators.Add(
-                // Scan the assembly for classes which inherit from AutoMapper.Profile
-                cfg => cfg.AddMaps(thisAssembly)
-            );
-        }
+            options.AddMaps<MearcuryApplicationModule>();
+        });
     }
 }

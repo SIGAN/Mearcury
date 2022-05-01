@@ -1,29 +1,36 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.IO;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using Mearcury.Configuration;
-using Mearcury.Web;
 
-namespace Mearcury.EntityFrameworkCore
+namespace Mearcury.EntityFrameworkCore;
+
+/* This class is needed for EF Core console commands
+ * (like Add-Migration and Update-Database commands) */
+public class MearcuryDbContextFactory : IDesignTimeDbContextFactory<MearcuryDbContext>
 {
-    /* This class is needed to run "dotnet ef ..." commands from command line on development. Not used anywhere else */
-    public class MearcuryDbContextFactory : IDesignTimeDbContextFactory<MearcuryDbContext>
+    public MearcuryDbContext CreateDbContext(string[] args)
     {
-        public MearcuryDbContext CreateDbContext(string[] args)
-        {
-            var builder = new DbContextOptionsBuilder<MearcuryDbContext>();
-            
-            /*
-             You can provide an environmentName parameter to the AppConfigurations.Get method. 
-             In this case, AppConfigurations will try to read appsettings.{environmentName}.json.
-             Use Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") method or from string[] args to get environment if necessary.
-             https://docs.microsoft.com/en-us/ef/core/cli/dbcontext-creation?tabs=dotnet-core-cli#args
-             */
-            var configuration = AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder());
+        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-            MearcuryDbContextConfigurer.Configure(builder, configuration.GetConnectionString(MearcuryConsts.ConnectionStringName));
+        MearcuryEfCoreEntityExtensionMappings.Configure();
 
-            return new MearcuryDbContext(builder.Options);
-        }
+        var configuration = BuildConfiguration();
+
+        var builder = new DbContextOptionsBuilder<MearcuryDbContext>()
+            .UseNpgsql(configuration.GetConnectionString("Default"));
+
+        return new MearcuryDbContext(builder.Options);
+    }
+
+    private static IConfigurationRoot BuildConfiguration()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../Mearcury.DbMigrator/"))
+            .AddJsonFile("appsettings.json", optional: false);
+
+        return builder.Build();
     }
 }

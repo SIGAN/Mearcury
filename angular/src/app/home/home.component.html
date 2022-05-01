@@ -1,296 +1,362 @@
-﻿<div [@routerTransition]>
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <h1>{{ "HomePage" | localize }}</h1>
-        </div>
-      </div>
+<div class="container">
+  <div class="p-5 text-center">
+    <div class="d-inline-block bg-success text-white p-1 h5 rounded mb-4" role="alert">
+      <h5 class="m-1">
+        <i class="fas fa-rocket"></i> Congratulations, <strong>Mearcury</strong> is
+        successfully running!
+      </h5>
     </div>
-  </section>
-  <section class="content px-2">
-    <div class="container-fluid">
+    <h1>{{ '::Welcome' | abpLocalization }}</h1>
+
+    <p class="lead px-lg-5 mx-lg-5">{{ '::LongWelcomeMessage' | abpLocalization }}</p>
+
+    <a *ngIf="!hasLoggedIn" (click)="login()" class="px-4 btn btn-primary ms-1" role="button"
+    ><i class="fa fa-sign-in"></i> {{ 'AbpAccount::Login' | abpLocalization }}</a
+    >
+  </div>
+  <div class="card">
+    <div class="card-body">
       <div class="row">
-        <div class="col-12">
-          <div class="alert alert-info alert-dismissible">
-            <h6><i class="icon fa fa-info"></i> This is a sample Dashboard which doesn't show any server side data.
-              However, you can develop your own dashboard inspired by this one and its source code.</h6>
-          </div>
+        <div class="col-md-auto text-center">
+          <img src="https://abp.io/assets/png/mastering-abp-framework.webp" style="max-width: 400px;"
+               class="w-100 mb-5 my-md-3">
         </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-3 col-6">
-          <div class="small-box bg-success">
-            <div class="inner">
-              <h3>8.2k+</h3>
-              <p>Stargazers</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-star"></i>
-            </div>
-            <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/stargazers"
-              class="small-box-footer"
-              target="_blank">
-              More info
-              <i class="fas fa-arrow-circle-right"></i>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-6">
-          <div class="small-box bg-info">
-            <div class="inner">
-              <h3>140+</h3>
-              <p>Contributors</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/graphs/contributors"
-              class="small-box-footer"
-              target="_blank">
-              More info
-              <i class="fas fa-arrow-circle-right"></i>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-6">
-          <div class="small-box bg-warning">
-            <div class="inner">
-              <h3>1.6k+</h3>
-              <p>Used / Dependents</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-tools"></i>
-            </div>
-            <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/network/dependents"
-              class="small-box-footer"
-              target="_blank">
-              More info
-              <i class="fas fa-arrow-circle-right"></i>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-6">
-          <div class="small-box bg-primary">
-            <div class="inner">
-              <h3>3.1k+</h3>
-              <p>Forks</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-code"></i>
-            </div>
-            <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/network/members"
-              class="small-box-footer"
-              target="_blank">
-              More info
-              <i class="fas fa-arrow-circle-right"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
-          <div class="info-box">
-            <span class="info-box-icon bg-primary elevation-1">
-              <i class="fas fa-plus-circle"></i>
-            </span>
-            <div class="info-box-content">
-              <span class="info-box-text">Commits</span>
-              <span class="info-box-number">
-                6,350+
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
-          <div class="info-box mb-3">
-            <span class="info-box-icon bg-warning elevation-1">
-              <i class="fas fa-exclamation-triangle"></i>
-            </span>
-            <div class="info-box-content">
-              <span class="info-box-text">Issues</span>
-              <span class="info-box-number">
-                170+
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="clearfix hidden-md-up"></div>
-        <div class="col-12 col-sm-6 col-md-3">
-          <div class="info-box mb-3">
-            <span class="info-box-icon bg-info elevation-1">
-              <i class="fas fa-tag"></i>
-            </span>
-            <div class="info-box-content">
-              <span class="info-box-text">Releases</span>
-              <span class="info-box-number">
-                200+
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
-          <div class="info-box mb-3">
-            <span class="info-box-icon bg-success elevation-1">
-              <i class="fas fa-eye"></i>
-            </span>
-            <div class="info-box-content">
-              <span class="info-box-text">Watching by</span>
-              <span class="info-box-number">
-                810+
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Open Issues</h3>
-            </div>
-            <div class="card-body table-responsive p-0">
-              <table class="table table-hover text-nowrap">
-                <thead class="bg-light">
-                  <tr>
-                    <th>Id</th>
-                    <th class="w-25">Title</th>
-                    <th class="w-25">Labels</th>
-                    <th>Date</th>
-                    <th>Opened by</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/issues/5452"
-                        target="_blank">
-                        5452
-                      </a>
-                    </td>
-                    <td>Angular UI migration to AdminLTE 3</td>
-                    <td>
-                      <span class="badge badge-secondary mx-1">
-                        module-zero-core-template
-                      </span>
-                      <span class="badge badge-primary mx-1">
-                        feature
-                      </span>
-                    </td>
-                    <td>11 days ago</td>
-                    <td>iyilm4z</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/issues/5391"
-                        target="_blank">
-                        5391
-                      </a>
-                    </td>
-                    <td>
-                      AbpCacheBase should lock the same object for sync and
-                      async
-                    </td>
-                    <td>
-                      <span class="badge badge-danger mx-1">
-                        bug
-                      </span>
-                      <span class="badge badge-success mx-1">
-                        pull request candidate
-                      </span>
-                    </td>
-                    <td>26 days ago</td>
-                    <td>acjh</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/issues/5390"
-                        target="_blank">
-                        5390
-                      </a>
-                    </td>
-                    <td>AbpCache sliding/absolute expire time</td>
-                    <td>
-                      <span class="badge badge-warning mx-1">
-                        breaking-change
-                      </span>
-                      <span class="badge badge-info mx-1">enhancement</span>
-                    </td>
-                    <td>27 days ago</td>
-                    <td>ryancyq</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Closed Pull Requests</h3>
-            </div>
-            <div class="card-body table-responsive p-0">
-              <table class="table table-hover text-nowrap">
-                <thead class="bg-light">
-                  <tr>
-                    <th>Id</th>
-                    <th class="w-25">Title</th>
-                    <th class="w-25">Milestone</th>
-                    <th>Date</th>
-                    <th>Made by</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/pull/5430"
-                        target="_blank">
-                        5430
-                      </a>
-                    </td>
-                    <td>
-                      Added Dynamic-Parameter-System doc to documentation menu
-                    </td>
-                    <td>v5.6</td>
-                    <td>18 days ago</td>
-                    <td>maliming</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/pull/5362"
-                        target="_blank">
-                        5362
-                      </a>
-                    </td>
-                    <td>
-                      Dynamic Parameter Module
-                    </td>
-                    <td>v5.4</td>
-                    <td>25 days ago</td>
-                    <td>demirmusa</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="https://github.com/aspnetboilerplate/aspnetboilerplate/pull/4924"
-                        target="_blank">
-                        4924
-                      </a>
-                    </td>
-                    <td>
-                      ASP.NET Core 3.0 Upgrade
-                    </td>
-                    <td>v5.0</td>
-                    <td>Oct 15</td>
-                    <td>ismcagdas</td>
-                  </tr>
-                </tbody>
-              </table>
+        <div class="col-md d-flex align-items-center">
+          <div class="pe-0 pe-md-4">
+            <small class="text-uppercase text-muted">THE OFFICIAL GUIDE</small>
+            <h2 class="mb-4">Mastering ABP Framework</h2>
+            <p class="mb-4">Written by the creator of the ABP Framework, this book will help you gain a complete
+              understanding of the framework and modern web application development techniques.</p>
+            <div class="mb-4">
+              <a href="https://www.amazon.com/gp/product/B097Z2DM8Q/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0"
+                 class="btn btn-success mb-1">
+                Buy on Amazon US
+              </a>
+              &nbsp;
+              <a href="https://www.packtpub.com/product/mastering-abp-framework/9781801079242"
+                 class="btn btn-primary mb-1">
+                Buy on PACKT
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="my-3 text-center">
+    <h3>Let's improve your application!</h3>
+    <p>Here are some links to help you get started:</p>
+  </div>
+  <div class="card mt-4 mb-5">
+    <div class="card-body">
+      <div class="row text-center justify-content-md-center">
+        <ng-container
+          *ngTemplateOutlet="
+            starterLinkTemplate;
+            context: {
+              $implicit: {
+                title: 'Learn the ABP Framework',
+                description:
+                  'Explore the compherensive documentation to learn how to build a modern web application.',
+                links: [
+                  {
+                    href: 'https://docs.abp.io/en/abp/latest?ref=tmpl',
+                    label: 'See Documents'
+                  }
+                ]
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="
+            starterLinkTemplate;
+            context: {
+              $implicit: {
+                title: 'Samples',
+                description: 'See the example projects built with the ABP Framework.',
+                links: [
+                  {
+                    href: 'https://docs.abp.io/en/abp/latest/Samples/Index?ref=tmpl',
+                    label: 'All samples'
+                  }
+                ]
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="
+            starterLinkTemplate;
+            context: {
+              $implicit: {
+                title: 'ABP Community',
+                description: 'Get involved with a vibrant community and become a contributor.',
+                links: [
+                  {
+                    href: 'https://community.abp.io/',
+                    label: 'Community'
+                  },
+                  {
+                    href: 'https://docs.abp.io/en/abp/latest/Contribution/Index?ref=tmpl',
+                    label: 'Contribute'
+                  }
+                ]
+              }
+            }
+          "
+        ></ng-container>
+      </div>
+      <div class="row text-center mt-lg-3 justify-content-md-center">
+        <ng-container
+          *ngTemplateOutlet="
+            starterLinkTemplate;
+            context: {
+              $implicit: {
+                title: 'ABP Blog',
+                description: 'Take a look at our recently published articles.',
+                links: [
+                  {
+                    href: 'https://blog.abp.io/abp?ref=tmpl',
+                    label: 'See Blog'
+                  }
+                ]
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-template #githubButtonsTemplate>
+          <p class="mb-1">
+            <iframe
+              scrolling="no"
+              src="https://buttons.github.io/buttons.html#href=https%3A%2F%2Fgithub.com%2Fabpframework%2Fabp&amp;title=&amp;aria-label=Star%20tabalinas%2Fjsgrid%20on%20GitHub&amp;data-icon=octicon-star&amp;data-text=Star&amp;data-size=large&amp;data-show-count=true"
+              style="
+                width: 122px;
+                height: 28px;
+                border: none;
+                display: inline-block;
+                margin-right: 4px;
+              "
+            ></iframe>
+            <iframe
+              scrolling="no"
+              src="https://buttons.github.io/buttons.html#href=https%3A%2F%2Fgithub.com%2Fabpframework%2Fabp%2Fissues&amp;title=&amp;aria-label=Issue%20tabalinas%2Fjsgrid%20on%20GitHub&amp;data-icon=octicon-issue-opened&amp;data-text=Issue&amp;data-size=large"
+              style="
+                width: 72px;
+                height: 28px;
+                border: none;
+                display: inline-block;
+                margin-right: 4px;
+              "
+            ></iframe>
+
+            <iframe
+              scrolling="no"
+              src="https://buttons.github.io/buttons.html#href=https%3A%2F%2Fgithub.com%2Fabpframework%2Fabp%2Ffork&amp;title=&amp;aria-label=Fork%20tabalinas%2Fjsgrid%20on%20GitHub&amp;data-icon=octicon-repo-forked&amp;data-text=Fork&amp;data-size=large&amp;"
+              style="width: 72px; height: 28px; border: none; display: inline-block"
+            ></iframe>
+          </p>
+        </ng-template>
+
+        <ng-container
+          *ngTemplateOutlet="
+            starterLinkTemplate;
+            context: {
+              $implicit: {
+                title: 'Github',
+                description:
+                  'Do you love the ABP Framework? Please <strong>give a star</strong> to support it!',
+                links: [
+                  {
+                    href: 'https://github.com/abpframework/abp/issues/new?template=feature.md',
+                    label: 'Request a feature'
+                  }
+                ],
+                customTemplate: githubButtonsTemplate
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="
+            starterLinkTemplate;
+            context: {
+              $implicit: {
+                title: 'Stackoverflow',
+                description: 'See answers to previously asked questions or ask a new one.',
+                links: [
+                  {
+                    href: 'https://stackoverflow.com/questions/tagged/abp',
+                    label: 'Questions'
+                  },
+                  {
+                    href: 'https://stackoverflow.com/questions/ask',
+                    label: 'Ask a Question'
+                  }
+                ]
+              }
+            }
+          "
+        ></ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5 my-3 text-center">
+    <h3>Meet the ABP Commercial</h3>
+    <p>A Complete Web Application Platform Built on the ABP Framework</p>
+  </div>
+
+  <div class="card mt-4 mb-5">
+    <div class="card-body">
+      <p class="px-lg-5 mx-lg-5 py-3 text-center">
+        <a href="https://commercial.abp.io/" target="_blank">ABP Commercial</a> is a platform based
+        on the open source ABP framework. It provides pre-built application modules, rapid
+        application development tooling, professional UI themes, premium support and more.
+      </p>
+
+      <div class="row text-center justify-content-md-center">
+        <ng-container
+          *ngTemplateOutlet="
+            featuresTemplate;
+            context: {
+              $implicit: {
+                title: 'Startup Templates',
+                href: 'https://commercial.abp.io/startup-templates?ref=tmpl'
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="
+            featuresTemplate;
+            context: {
+              $implicit: {
+                title: 'Application Modules',
+                href: 'https://commercial.abp.io/modules?ref=tmpl'
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="
+            featuresTemplate;
+            context: {
+              $implicit: {
+                title: 'Developer<br />Tools',
+                href: 'https://commercial.abp.io/tools?ref=tmpl'
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="
+            featuresTemplate;
+            context: {
+              $implicit: {
+                title: 'UI<br />Themes',
+                href: 'https://commercial.abp.io/themes?ref=tmpl'
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="
+            featuresTemplate;
+            context: {
+              $implicit: {
+                title: 'Premium Support',
+                href: 'https://support.abp.io/QA/Questions?ref=tmpl'
+              }
+            }
+          "
+        ></ng-container>
+
+        <ng-container
+          *ngTemplateOutlet="
+            featuresTemplate;
+            context: {
+              $implicit: {
+                title: 'Additional Services',
+                href: 'https://commercial.abp.io/additional-services?ref=tmpl'
+              }
+            }
+          "
+        ></ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="mb-5 text-center">
+    <p class="align-middle">
+      <a href="https://twitter.com/abpframework" target="_blank" class="mx-2"
+      ><i class="fa fa-twitter"></i><span class="text-secondary"> Abp Framework</span></a
+      >
+      <a href="https://twitter.com/abpcommercial" target="_blank" class="mx-2"
+      ><i class="fa fa-twitter"></i><span class="text-secondary"> Abp Commercial</span></a
+      >
+      <a href="https://github.com/abpframework/abp" target="_blank" class="mx-2"
+      ><i class="fa fa-github"></i><span class="text-secondary"> abpframework</span></a
+      >
+    </p>
+  </div>
 </div>
+
+<ng-template #starterLinkTemplate let-context>
+  <div class="col-lg-4 border-start">
+    <div class="p-4">
+      <h5 class="mb-3">
+        <i class="fas fa-cubes text-secondary d-block my-3 fa-2x"></i> {{ context.title }}
+      </h5>
+      <p [innerHTML]="context.description"></p>
+      <ng-container
+        *ngIf="context.customTemplate"
+        [ngTemplateOutlet]="context.customTemplate"
+      ></ng-container>
+      <a
+        *ngFor="let link of context.links"
+        [href]="link.href"
+        target="_blank"
+        class="btn btn-link px-1"
+      >{{ link.label }} <i class="fas fa-chevron-right"></i
+      ></a>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #featuresTemplate let-context>
+  <div class="col-lg-2 border-start">
+    <div class="p-3">
+      <h6>
+        <i class="fas fa-plus d-block mb-3 fa- 2x text-secondary"></i>
+        <span [innerHTML]="context.title"></span>
+        <a [href]="context.href" target="_blank" class="d-block mt-2 btn btn-sm btn-link"
+        >Details <i class="fas fa-chevron-right"></i
+        ></a>
+      </h6>
+    </div>
+  </div>
+</ng-template>
+
+<style scoped>
+  .col-lg-2.border-start:nth-of-type(6n + 1) {
+    border-left: 0 !important;
+  }
+
+  .col-lg-4.border-start:nth-of-type(3n + 1) {
+    border-left: 0 !important;
+  }
+
+  @media (max-width: 991px) {
+    .border-start {
+      border-left: 0 !important;
+    }
+  }
+</style>
