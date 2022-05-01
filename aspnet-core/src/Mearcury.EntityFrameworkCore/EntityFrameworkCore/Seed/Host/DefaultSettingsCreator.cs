@@ -20,10 +20,12 @@ namespace Mearcury.EntityFrameworkCore.Seed.Host
         {
             int? tenantId = null;
 
-            if (MearcuryConsts.MultiTenancyEnabled == false)
+#pragma warning disable CS0162 // Unreachable code detected
+            if (!MearcuryConsts.MultiTenancyEnabled)
             {
                 tenantId = MultiTenancyConsts.DefaultTenantId;
             }
+#pragma warning restore CS0162 // Unreachable code detected
 
             // Emailing
             AddSettingIfNotExists(EmailSettingNames.DefaultFromAddress, "admin@mydomain.com", tenantId);

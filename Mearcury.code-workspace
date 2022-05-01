@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "path": "angular"
+    },
+    {
+      "path": "aspnet-core"
+    },
+    {
+      "path": "..\\AzureBillingApi"
+    },
+    {
+      "path": "..\\AzureUsageAndBillingPortal"
+    },
+    {
+      "path": "..\\..\\Algorithms"
+    }
+  ],
+  "settings": {
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false
+  }
+}

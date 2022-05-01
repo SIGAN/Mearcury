@@ -2,7 +2,7 @@
 
 namespace Mearcury
 {
-    public class MearcuryConsts
+    public static class MearcuryConsts
     {
         public const string LocalizationSourceName = "Mearcury";
 
@@ -10,6 +10,7 @@ namespace Mearcury
 
         public const bool MultiTenancyEnabled = true;
 
+        public const int MaxNameLength = 120;
 
         /// <summary>
         /// Default pass phrase for SimpleStringCipher decrypt/encrypt operations

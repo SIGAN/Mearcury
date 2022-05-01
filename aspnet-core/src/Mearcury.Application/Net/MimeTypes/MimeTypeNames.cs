@@ -6,7 +6,7 @@ namespace Mearcury.Net.MimeTypes
      * http://stackoverflow.com/questions/10362140/asp-mvc-are-there-any-constants-for-the-default-content-types */
 
     /// <summary>
-    /// Common mime types. 
+    /// Common mime types.
     /// </summary>
     public static class MimeTypeNames
     {
@@ -55,7 +55,9 @@ namespace Mearcury.Net.MimeTypes
         ///<summary>DTD files; Defined by RFC 3023</summary>
         public const string ApplicationXmlDtd = "application/xml-dtd";
 
-        ///<summary>ECMAScript/JavaScript; Defined in RFC 4329 (equivalent to application/ecmascript but with looser processing rules) It is not accepted in IE 8 or earlier - text/javascript is accepted but it is defined as obsolete in RFC 4329. The "type" attribute of the <script> tag in HTML5 is optional and in practice omitting the media type of JavaScript programs is the most interoperable solution since all browsers have always assumed the correct default even before HTML5.</summary>
+        ///<summary>
+        ///ECMAScript/JavaScript; Defined in RFC 4329 (equivalent to application / ecmascript but with looser processing rules) It is not accepted in IE 8 or earlier - text/javascript is accepted but it is defined as obsolete in RFC 4329. The "type" attribute of the "script" tag in HTML5 is optional and in practice omitting the media type of JavaScript programs is the most interoperable solution since all browsers have always assumed the correct default even before HTML5.
+        ///</summary>
         public const string ApplicationJavascript = "application/javascript";
 
         ///<summary>ECMAScript/JavaScript; Defined in RFC 4329 (equivalent to application/javascript but with stricter processing rules)</summary>
@@ -106,8 +108,8 @@ namespace Mearcury.Net.MimeTypes
         ///<summary>JavaScript Object Notation (JSON) Patch; Defined in RFC 6902</summary>
         public const string ApplicationJsonPatch = "application/json-patch+json";
 
-        ///<summary>JavaScript - Defined in and obsoleted by RFC 4329 in order to discourage its usage in favor of application/javascript. However,text/javascript is allowed in HTML 4 and 5 and, unlike application/javascript, has cross-browser support. The "type" attribute of the <script> tag in HTML5 is optional and there is no need to use it at all since all browsers have always assumed the correct default (even in HTML 4 where it was required by the specification).</summary>
-        [Obsolete]
+        ///<summary>JavaScript - Defined in and obsoleted by RFC 4329 in order to discourage its usage in favor of application/javascript. However,text/javascript is allowed in HTML 4 and 5 and, unlike application/javascript, has cross-browser support. The "type" attribute of the "script" tag in HTML5 is optional and there is no need to use it at all since all browsers have always assumed the correct default (even in HTML 4 where it was required by the specification).</summary>
+        [Obsolete("Defined in and obsoleted by RFC 4329 in order to discourage its usage in favor of application/javascript.")]
         public const string TextJavascript = "text/javascript";
 
         ///<summary>JPEG JFIF image; Associated with Internet Explorer; Listed in ms775147(v=vs.85) - Progressive JPEG, initiated before global browser support for progressive JPEGs (Microsoft and Firefox).</summary>

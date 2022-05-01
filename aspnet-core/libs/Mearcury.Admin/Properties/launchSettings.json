@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Mearcury.Admin": {
+      "commandName": "Project",
+      "commandLineArgs": "test"
+    }
+  }
+}

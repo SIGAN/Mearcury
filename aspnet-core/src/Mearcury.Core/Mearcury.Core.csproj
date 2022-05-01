@@ -19,4 +19,7 @@
     <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="7.0.0" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.4.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilization\" />
+  </ItemGroup>
 </Project>

@@ -103,18 +103,20 @@ namespace Mearcury.Users
         [AbpAuthorize(PermissionNames.Pages_Users_Activation)]
         public async Task Activate(EntityDto<long> user)
         {
-            await Repository.UpdateAsync(user.Id, async (entity) =>
+            await Repository.UpdateAsync(user.Id, (entity) =>
             {
                 entity.IsActive = true;
+                return Task.CompletedTask;
             });
         }
 
         [AbpAuthorize(PermissionNames.Pages_Users_Activation)]
         public async Task DeActivate(EntityDto<long> user)
         {
-            await Repository.UpdateAsync(user.Id, async (entity) =>
+            await Repository.UpdateAsync(user.Id, (entity) =>
             {
                 entity.IsActive = false;
+                return Task.CompletedTask;
             });
         }
 
@@ -196,7 +198,7 @@ namespace Mearcury.Users
             {
                 throw new Exception("There is no current user!");
             }
-            
+
             if (await _userManager.CheckPasswordAsync(user, input.CurrentPassword))
             {
                 CheckErrors(await _userManager.ChangePasswordAsync(user, input.NewPassword));
@@ -218,19 +220,19 @@ namespace Mearcury.Users
             {
                 throw new UserFriendlyException("Please log in before attempting to reset password.");
             }
-            
+
             var currentUser = await _userManager.GetUserByIdAsync(_abpSession.GetUserId());
             var loginAsync = await _logInManager.LoginAsync(currentUser.UserName, input.AdminPassword, shouldLockout: false);
             if (loginAsync.Result != AbpLoginResultType.Success)
             {
                 throw new UserFriendlyException("Your 'Admin Password' did not match the one on record.  Please try again.");
             }
-            
+
             if (currentUser.IsDeleted || !currentUser.IsActive)
             {
                 return false;
             }
-            
+
             var roles = await _userManager.GetRolesAsync(currentUser);
             if (!roles.Contains(StaticRoleNames.Tenants.Admin))
             {

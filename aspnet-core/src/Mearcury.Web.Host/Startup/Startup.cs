@@ -42,7 +42,7 @@ namespace Mearcury.Web.Host.Startup
         {
             //MVC
             services.AddControllersWithViews(
-                options => { options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute()); }
+                options => options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute())
             ).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new AbpMvcContractResolver(IocManager.Instance)
@@ -91,7 +91,7 @@ namespace Mearcury.Web.Host.Startup
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
+            app.UseAbp(options => options.UseAbpRequestLocalization = false); // Initializes ABP framework.
 
             app.UseCors(_defaultCorsPolicyName); // Enable CORS!
 
@@ -103,7 +103,6 @@ namespace Mearcury.Web.Host.Startup
 
             app.UseAbpRequestLocalization();
 
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
@@ -112,7 +111,7 @@ namespace Mearcury.Web.Host.Startup
             });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
+            app.UseSwagger(c => c.RouteTemplate = "swagger/{documentName}/swagger.json");
 
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUI(options =>
@@ -124,7 +123,7 @@ namespace Mearcury.Web.Host.Startup
                 options.DisplayRequestDuration(); // Controls the display of the request duration (in milliseconds) for "Try it out" requests.  
             }); // URL: /swagger
         }
-        
+
         private void ConfigureSwagger(IServiceCollection services)
         {
             services.AddSwaggerGen(options =>

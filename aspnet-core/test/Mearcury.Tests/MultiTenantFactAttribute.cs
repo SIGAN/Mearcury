@@ -6,10 +6,12 @@ namespace Mearcury.Tests
     {
         public MultiTenantFactAttribute()
         {
+#pragma warning disable CS0162 // Unreachable code detected
             if (!MearcuryConsts.MultiTenancyEnabled)
             {
                 Skip = "MultiTenancy is disabled.";
             }
+#pragma warning restore CS0162 // Unreachable code detected
         }
     }
 }
